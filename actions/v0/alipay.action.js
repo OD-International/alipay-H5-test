@@ -1,7 +1,8 @@
 const ODAction = require('../action.model');
+const func = require('od-utility')
 const fs = require('fs');
 const AlipaySDK = require('alipay-sdk').default;
-const AplipayFormData = require('alipay-sdk/lib/form').default;
+const AlipayFormData = require('alipay-sdk/lib/form').default;
 
 const alipaySDK = new AlipaySDK({
     appId: '2019011963103139',
@@ -13,7 +14,7 @@ class ANAlipayAction extends ODAction {
 
     static async makePayment(params, body, query, auth) {
         try {
-            const formData = new AplipayFormData();
+            const formData = new AlipayFormData();
             const {outTradeNo, productCode, totalAmount, name, description} = body;
 
             formData.setMethod('get');
@@ -36,6 +37,25 @@ class ANAlipayAction extends ODAction {
             return result;
         } catch (err) {
             throw(err);
+        }
+    }
+
+    static async findPaymentRecord(params, body, query, auth) {
+        try {
+            const {tradeNo} = params;
+
+            if(!tradeNo) func.throwErrorWithMissingParam('tradeNo');
+
+            const result = await alipaySDK.exec( 'alipay.trade.query', {
+                bizContent: {
+                    tradeNo: tradeNo
+                }
+            },{
+                validateSign: true,
+            });
+            return result;
+        } catch (err) {
+            throw err;
         }
     }
 }

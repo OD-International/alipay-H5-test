@@ -4,7 +4,7 @@ const router = express.Router();
 
 const ANAlipayAction = require('../../actions/v0/alipay.action')
 
-router.post('/pay', async (req, res, next) => {
+router.post('/make', async (req, res, next) => {
     try {
         const auth = {};
 
@@ -15,7 +15,24 @@ router.post('/pay', async (req, res, next) => {
             'MAKE PAYMENT SUCCEED',
             auth
         );
-        res.send(resBody);
+        res.json(resBody);
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.get('/find/:tradeNo', async (req, res, next) => {
+    try {
+        const auth = {};
+
+        const resBody = func.configSuccess(
+            await ANAlipayAction.findPaymentRecord(
+                req.params, req.body, req.query, auth
+            ),
+            'FIND PAYMENT RECORD SUCCEED',
+            auth
+        );
+        res.json(resBody);
     } catch (err) {
         next(err);
     }
