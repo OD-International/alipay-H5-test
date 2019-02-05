@@ -18,7 +18,7 @@ class ANAlipayAction extends ODAction {
 
             formData.setMethod('get');
             formData.addField('returnUrl', 'http://google.com');
-            formData.addField('notifyUrl', 'http://localhost:3000/api/v0/alipay/')
+            formData.addField('notifyUrl', 'http://ec2-54-153-24-22.us-west-1.compute.amazonaws.com:3000/api/v0/alipay/')
             formData.addField('bizContent', {
                 outTradeNo: outTradeNo,
                 productCode: productCode,
