@@ -5,7 +5,7 @@ const AlipaySDK = require('alipay-sdk').default;
 const AlipayFormData = require('alipay-sdk/lib/form').default;
 
 const alipaySDK = new AlipaySDK({
-    appId: '2019011963103139',
+    appId: process.env.APPID,
     privateKey: fs.readFileSync('./private_key.pem', 'ascii'),
     alipayPublicKey: fs.readFileSync('./public_key.pem', 'ascii')
 });
